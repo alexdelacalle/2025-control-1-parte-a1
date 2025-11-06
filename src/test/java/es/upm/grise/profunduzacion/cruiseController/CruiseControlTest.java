@@ -16,12 +16,14 @@ public class CruiseControlTest {
 
     private Speedometer speedometer;
     private CruiseControl cruise;
-
+    private CruiseControl cruise2;
     @Before
     public void setUp() {
         speedometer = Mockito.mock(Speedometer.class);
         cruise = new CruiseControl(speedometer);
         cruise.setSpeedLimit(2);
+        cruise2 = new CruiseControl(speedometer);
+
     }
 
     @Test(expected = IncorrectSpeedSetException.class)
@@ -29,7 +31,7 @@ public class CruiseControlTest {
         cruise.setSpeedSet(0);
     }
 
-    @Test
+    @Test(expected= IncorrectSpeedSetException.class)
     public void testSetSpeedSetThrowsExceptionWhenSpeedIsNegative() {
         cruise.setSpeedSet(-3);
 
@@ -37,13 +39,13 @@ public class CruiseControlTest {
 
     @Test(expected= SpeedSetAboveSpeedLimitException.class)
     public void testSetSpeedSetThrowsExceptionWhenSpeedLimitIsNull() {
-        cruise.setSpeedLimit(null);
-    	cruise.setSpeedLimit(6);
+    	cruise2.setSpeedLimit(6);
     }
 
     @Test(expected= SpeedSetAboveSpeedLimitException.class)
     public void testSetSpeedSetThrowsExceptionWhenSpeedSetAboveLimit() {
         cruise.setSpeedLimit(6);
+        cruise.setSpeedSet(7);
 
     }
 
